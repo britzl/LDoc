@@ -21,7 +21,7 @@ function string.char(...) end
 -- Returns a string containing a binary representation of the given
 -- function, so that a later `loadstring` on this string returns a copy of
 -- the function. `function` must be a Lua function without upvalues.
-function string.dump(function) end
+function string.dump(func) end
 
 ---
 -- Looks for the first match of `pattern` in the string `s`. If it finds a

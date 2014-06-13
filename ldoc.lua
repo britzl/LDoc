@@ -671,6 +671,10 @@ if args.ext == 'md' then
    args.ext = '.md'
 end
 
+if args.ext ~= "html" then
+   ldoc.style = false
+end
+
 local function match_bang (s)
    if type(s) ~= 'string' then return end
    return s:match '^!(.*)'
