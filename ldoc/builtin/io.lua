@@ -48,10 +48,14 @@ function io.lines(filename) end
 -- The `mode` string can also have a '`b`' at the end, which is needed in
 -- some systems to open the file in binary mode. This string is exactly what
 -- is used in the standard C function `fopen`.
+-- @return file_handle
+-- @return error_message
 function io.open(filename , mode) end
 
 ---
 -- Similar to `io.input`, but operates over the default output file.
+-- @return file_handle
+-- @return error_message
 function io.output(file) end
 
 ---
@@ -59,6 +63,7 @@ function io.output(file) end
 -- that you can use to read data from this program (if `mode` is `"r"`,
 -- the default) or to write data to this program (if `mode` is `"w"`).
 -- This function is system dependent and is not available on all platforms.
+-- @return file_handle
 function io.popen(prog , mode) end
 
 ---
@@ -72,12 +77,14 @@ function io.read(...) end
 ---
 -- Returns a handle for a temporary file. This file is opened in update
 -- mode and it is automatically removed when the program ends.
+-- @return file_handle
 function io.tmpfile() end
 
 ---
 -- Checks whether `obj` is a valid file handle. Returns the string `"file"`
 -- if `obj` is an open file handle, `"closed file"` if `obj` is a closed file
 -- handle, or nil if `obj` is not a file handle.
+-- @return type
 function io.type(obj) end
 
 ---
