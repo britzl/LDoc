@@ -287,6 +287,7 @@ function File:finish()
             else
                display_name = summary
                lookup_name = summary
+               item.summary = ''
             end
             item.display_name = display_name
             this_mod.section = item
@@ -368,8 +369,8 @@ function File:finish()
                   end
                end
                if this_section then
-                  section_description = this_section.summary..' '..(this_section.description or '')
-                  this_section.summary = ''
+                  --section_description = this_section.summary..' '..(this_section.description or '')
+                  --this_section.summary = ''
                elseif item.tags.within then
                   item.section = item.tags.within
                else
@@ -1100,6 +1101,11 @@ function Module:process_see_reference (s,modules,istype)
    else
       lua_manual_ref = global.lua_manual_ref
    end
+   -- pure C projects use global lookup (no namespaces)
+   if ldoc and ldoc.global_lookup == nil then
+      local using_c = ldoc.parse_extra and ldoc.parse_extra.C
+      ldoc.global_lookup = using_c or false
+   end
 
    -- is this a fully qualified module name?
    local mod_ref = modules.by_name[s]
@@ -1142,6 +1148,13 @@ function Module:process_see_reference (s,modules,istype)
          end
       end
    else -- plain jane name; module in this package, function in this module
+      if ldoc and ldoc.global_lookup then
+        for m in modules:iter() do
+            fun_ref = m:get_fun_ref(s)
+            if fun_ref then return reference(s,m,fun_ref) end
+        end
+        return nil,"function: "..s.." not found globally"
+      end
       mod_ref = modules.by_name[self.package..'.'..s]
       if ismod(mod_ref) then return reference(s, mod_ref,nil) end
       fun_ref = self:get_fun_ref(s)
@@ -1308,4 +1321,3 @@ function doc.filter_objects_through_function(filter, module_list)
 end
 
 return doc
-
