@@ -403,6 +403,8 @@ local function process_file (f, flist)
    local ftype = file_types[ext]
    if ftype then
       if args.verbose then print(f) end
+      -- FIXME: dirty hack, so that multiple modules with submodules work
+      args.package = path.splitpath(f)
       ftype.extra = ldoc.parse_extra or {}
       local F,err = parse.file(f,ftype,args)
       if err then
